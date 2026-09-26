@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Configurable Splashes — Downloads</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #14161c;
+    --muted: #6b6f7a;
+    --line: #e7e8ec;
+    --panel: #f6f7f9;
+    --accent: #2540c9;
+    --accent-ink: #ffffff;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  :root[data-theme="dark"] {
+    --bg: #101114;
+    --ink: #eceef2;
+    --muted: #8a8d98;
+    --line: #26282f;
+    --panel: #17181c;
+    --accent: #5b74ff;
+    --accent-ink: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body { transition: background 0.15s ease, color 0.15s ease; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 22px 24px 0;
+  }
+  .nav .mark {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .nav a:hover { color: var(--ink); }
+
+  .hero {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 0;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 44px);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 44ch;
+    margin: 0 auto 32px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 13px 26px;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  .btn:hover { filter: brightness(0.88); }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--ink);
+    cursor: pointer;
+    margin-left: 16px;
+  }
+  .theme-toggle:hover { background: var(--line); }
+  .theme-toggle svg { width: 16px; height: 16px; }
+  .theme-toggle .sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .sun { display: block; }
+  :root[data-theme="dark"] .theme-toggle .moon { display: none; }
+  .nav-right { display: flex; align-items: center; }
+  .btn .sub {
+    opacity: 0.75;
+    font-weight: 400;
+  }
+
+  .section {
+    max-width: 640px;
+    margin: 72px auto 0;
+    padding: 0 24px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .section-head h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .section-head span {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  details {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  summary {
+    cursor: pointer;
+    padding: 16px 18px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    list-style: none;
+    color: var(--ink);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary .label { color: var(--muted); }
+  summary .chev {
+    transition: transform 0.15s ease;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  details[open] summary .chev { transform: rotate(90deg); }
+
+  .version-list { border-top: 1px solid var(--line); }
+  .version-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .version-row:first-child { border-top: none; }
+  .version-row:hover { background: var(--panel); }
+  .version-row .v { font-weight: 600; font-size: 14px; }
+  .version-row .mc { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .version-row .go { color: var(--muted); font-size: 13px; flex-shrink: 0; margin-left: 12px; }
+
+  footer {
+    max-width: 760px;
+    margin: 96px auto 0;
+    padding: 24px 24px 48px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+
+  @media (max-width: 480px) {
+    footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="mark">Configurable Splashes</div>
+    <div class="nav-right">
+      <a href="https://github.com/LwkFurina/Configurable-Splashes">GitHub</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Configurable Splashes</h1>
+    <p>A Fabric mod that swaps Minecraft's random splash text for whatever message you set. Client side, no dependencies.</p>
+    <a class="btn" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.6.0">
+      Download v1.6.0 <span class="sub">for 26.3</span>
+    </a>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>All versions</h2>
+      <span>7 releases</span>
+    </div>
+    <details>
+      <summary><span class="label">Older versions</span><span class="chev">▸</span></summary>
+      <div class="version-list">
+        <a class="version-row" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.5.0">
+          <div><div class="v">v1.5.0</div><div class="mc">Minecraft 26.2</div></div>
+          <span class="go">Download</span>
+        </a>
+        <a class="version-row" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.4.0">
+          <div><div class="v">v1.4.0</div><div class="mc">Minecraft 26.1.2</div></div>
+          <span class="go">Download</span>
+        </a>
+        <a class="version-row" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.3.0">
+          <div><div class="v">v1.3.0</div><div class="mc">Minecraft 26.1</div></div>
+          <span class="go">Download</span>
+        </a>
+        <a class="version-row" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.2.0">
+          <div><div class="v">v1.2.0</div><div class="mc">Minecraft 1.21.9</div></div>
+          <span class="go">Download</span>
+        </a>
+        <a class="version-row" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.1.0">
+          <div><div class="v">v1.1.0</div><div class="mc">Minecraft 1.21.11</div></div>
+          <span class="go">Download</span>
+        </a>
+        <a class="version-row" href="https://github.com/LwkFurina/Configurable-Splashes/releases/tag/v1.0.0">
+          <div><div class="v">v1.0.0</div><div class="mc">Minecraft 1.21.10 — initial release</div></div>
+          <span class="go">Download</span>
+        </a>
+      </div>
+    </details>
+  </div>
+
+  <footer>
+    <span>Configurable Splashes is open source.</span>
+    <a href="https://github.com/LwkFurina/Configurable-Splashes">Source on GitHub</a>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var toggle = document.getElementById('themeToggle');
+      var STORAGE_KEY = 'cs-theme';
+
+      function getStored() {
+        try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+      }
+      function setStored(value) {
+        try { localStorage.setItem(STORAGE_KEY, value); } catch (e) {}
+      }
+      function apply(theme) {
+        if (theme === 'dark' || theme === 'light') {
+          root.setAttribute('data-theme', theme);
+        } else {
+          root.removeAttribute('data-theme');
+        }
+      }
+
+      var stored = getStored();
+      if (stored) apply(stored);
+
+      toggle.addEventListener('click', function () {
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var current = root.getAttribute('data-theme') || (prefersDark ? 'dark' : 'light');
+        var next = current === 'dark' ? 'light' : 'dark';
+        apply(next);
+        setStored(next);
+      });
+    })();
+  </script>
+</body>
+</html>
